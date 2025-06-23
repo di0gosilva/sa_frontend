@@ -49,7 +49,7 @@ function App() {
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["DOCTOR", "RECEPCIONIST"]}>
             <PrivateLayout />
           </ProtectedRoute>
         }

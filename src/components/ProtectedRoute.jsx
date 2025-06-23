@@ -4,8 +4,19 @@ import { Navigate, useLocation, Outlet } from "react-router-dom"
 import { useAuth } from "../contexts/AuthContext"
 
 export default function ProtectedRoute({ children, allowedRoles = [] }) {
-  const { isAuthenticated, user } = useAuth()
+  const { isAuthenticated, user, loading } = useAuth()
   const location = useLocation()
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Carregando...</h1>
+          <p className="text-gray-600">Aguarde enquanto verificamos suas credenciais.</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />

@@ -11,24 +11,18 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const token = localStorage.getItem("@medical:token")
-
-    if (token) {
-      api.defaults.headers.authorization = `Bearer ${token}`
-      loadUser()
-    } else {
-      setLoading(false)
-    }
+    loadUser()
   }, [])
 
   async function loadUser() {
     try {
-      const response = await api.get("/auth/me")
+      const response = await api.get("/auth/me", {
+        withCredentials: true,
+      })
       setUser(response.data.user)
     } catch (error) {
       console.error("Erro ao carregar usuário:", error)
-      localStorage.removeItem("@medical:token")
-      delete api.defaults.headers.authorization
+      setUser(null)
     } finally {
       setLoading(false)
     }
@@ -36,18 +30,14 @@ export function AuthProvider({ children }) {
 
   async function signIn({ email, senha }) {
     try {
-      const response = await api.post("/auth/login", { email, senha })
+      const response = await api.post(
+        "/auth/login",
+        { email, senha },
+        { withCredentials: true },
+      )
 
-      const { token, user: userData } = response.data
-
-      localStorage.setItem("@medical:token", token)
-      api.defaults.headers.authorization = `Bearer ${token}`
-
-      setUser(userData)
-      console.log("Usuário autenticado:", userData)
-
+      setUser(response.data.user)
       toast.success("Login realizado com sucesso!")
-
       return { success: true }
     } catch (error) {
       const message = error.response?.data?.error || "Erro ao fazer login"
@@ -68,11 +58,15 @@ export function AuthProvider({ children }) {
     }
   }
 
-  function signOut() {
-    localStorage.removeItem("@medical:token")
-    delete api.defaults.headers.authorization
-    setUser(null)
-    toast.success("Logout realizado com sucesso!")
+  async function signOut() {
+    try {
+      await api.post("/auth/logout", {}, { withCredentials: true })
+    } catch (e) {
+      console.error("Erro ao fazer logout:", e)
+    } finally {
+      setUser(null)
+      toast.success("Logout realizado com sucesso!")
+    }
   }
 
   const value = {
