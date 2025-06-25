@@ -19,13 +19,13 @@ export default function Sidebar() {
       name: "Consultas",
       href: "/dashboard/consultas",
       icon: Calendar,
-      roles: ["DOCTOR", "RECEPTIONIST"],
+      roles: ["DOCTOR"],
     },
     {
       name: "Horários",
       href: "/dashboard/horarios",
       icon: Clock,
-      roles: ["DOCTOR"],
+      roles: ["RECEPTIONIST"],
     },
     {
       name: "Médicos",
