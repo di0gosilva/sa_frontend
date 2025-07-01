@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const api = axios.create({
-  baseURL: "/api",
+  baseURL: "https://sabackend-production.up.railway.app/api",
   withCredentials: true,
   timeout: 10000,
 })
