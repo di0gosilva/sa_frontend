@@ -47,7 +47,7 @@ Frontend em React para o sistema de agendamento médico, desenvolvido com Vite, 
 
 1. **Clone o repositório**
 \`\`\`bash
-git clone <url-do-repositorio>
+git clone <url-do-repositorio>  
 cd medical-appointment-frontend
 \`\`\`
 

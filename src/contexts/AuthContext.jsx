@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    loadUser()
+    loadUser() 
   }, [])
 
   async function loadUser() {

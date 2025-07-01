@@ -14,6 +14,6 @@ api.interceptors.response.use(
       console.warn("Sessão expirada ou acesso não autorizado.")
     }
 
-    return Promise.reject(error)
+    return Promise.reject(error) 
   },
 )
